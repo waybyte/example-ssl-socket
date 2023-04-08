@@ -114,33 +114,16 @@ static void urc_callback(unsigned int param1, unsigned int param2)
 	}
 }
 
-static int status_callback(int id, int event)
-{
-	switch (event)
-	{
-	case SOCK_EV_CONNECTED:
-		printf("Socket connected\n");
-		break;
-	case SOCK_EV_DISCONNECTED:
-		printf("Socket disconnected\n");
-		break;
-	default:
-		printf("Socket Event: %d\n", event);
-		break;
-	}
-	return 0;
-}
-
 static void socket_init(void)
 {
 	struct ssl_sockopt_t sockopt;
 
-	socket_id = ssl_socket_request(SSL_VER_DEFAULT, NULL);
+	socket_id = ssl_socket_request(NULL);
 
 	strcpy(sockopt.server_ip, SERVER_IP);
 	sockopt.port = SERVER_PORT;
 	sockopt.arg = NULL;
-	sockopt.status_callback = status_callback;
+	sockopt.timeout = 30; /* SSL handshake timeout 30s */
 	ssl_socket_setopt(socket_id, &sockopt);
 }
 
