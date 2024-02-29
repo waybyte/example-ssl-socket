@@ -185,11 +185,11 @@ int main(int argc, char *argv[])
 	 */
 	logicrom_init("/dev/ttyS0", urc_callback);
 	/* Start GPRS service */
-	network_gprsenable(TRUE);
+	network_dataenable(TRUE);
 
 	printf("Waiting for network!\n");
 	/* wait for network GPRS ready */
-	while (!network_isgprsenable()) {
+	while (!network_isdataready()) {
 		sleep(1);
 		if (++timeout > 120) {
 			printf("Data connection fail!, rebooting...\n");
